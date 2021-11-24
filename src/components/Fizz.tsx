@@ -3,16 +3,17 @@ import * as foobar from "../contexts/foobar";
 
 // NEXT create another context and combine them, then change import naming convention
 function Fizz() {
-  const [state, dispatch] = useContext(foobar.context);
+  // NEXT change this to useFoobar, and add the "missing foobar provider" stuff
+  const [foobarState, foobarDispatch] = useContext(foobar.context);
 
   useEffect(() => {
-    dispatch({ type: "SET_BUZZ", payload: 0 });
-    dispatch({ type: "SET_BUZZ" }); // error is expected!
-  }, [state.fizz, dispatch]);
+    foobarDispatch({ type: "SET_BUZZ", payload: 0 });
+    foobarDispatch({ type: "SET_BUZZ" }); // error is expected!
+  }, [foobarState.fizz, foobarDispatch]);
 
   function incrementFizz() {
-    dispatch({ type: "INCREMENT_FIZZ" });
-    dispatch({ type: "INCREMENT_FIZZ", payload: 0 }); // error is expected!
+    foobarDispatch({ type: "INCREMENT_FIZZ" });
+    foobarDispatch({ type: "INCREMENT_FIZZ", payload: 0 }); // error is expected!
   }
 
   return (
@@ -20,7 +21,7 @@ function Fizz() {
       <button type="button" onClick={incrementFizz}>
         CLICKME
       </button>
-      <div>Fizz: {state.fizz}</div>
+      <div>Fizz: {foobarState.fizz}</div>
     </div>
   );
 }

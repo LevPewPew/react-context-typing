@@ -5,22 +5,13 @@ interface Foobar {
   buzz: number;
 }
 
-type FoobarActionKindWithPayload = "SET_FIZZ" | "SET_BUZZ";
+type Action =
+  | { type: "SET_FIZZ"; payload: number }
+  | { type: "INCREMENT_FIZZ" }
+  | { type: "SET_BUZZ"; payload: number }
+  | { type: "INCREMENT_BUZZ" };
 
-type FoobarActionKindNoPayload = "INCREMENT_FIZZ" | "INCREMENT_BUZZ";
-
-type FoobarAction = FoobarActionWithPayload | FoobarActionNoPayload;
-
-interface FoobarActionWithPayload {
-  type: FoobarActionKindWithPayload;
-  payload: number;
-}
-
-interface FoobarActionNoPayload {
-  type: FoobarActionKindNoPayload;
-}
-
-function foobarReducer(state: Foobar, action: FoobarAction) {
+function reducer(state: Foobar, action: Action) {
   switch (action.type) {
     case "SET_FIZZ":
       return { ...state, fizz: action.payload };
@@ -35,19 +26,17 @@ function foobarReducer(state: Foobar, action: FoobarAction) {
   }
 }
 
-/* LEFTOFF: change to use missing context guard, this should be better than the
-epic react "better error message" approach since can catch this at compile time... :) */
-// https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/
-export const context = createContext<[Foobar, React.Dispatch<FoobarAction>]>(
+export const context = createContext<[Foobar, React.Dispatch<Action>]>(
   undefined!
 );
 
 const initialState: Foobar = { fizz: 0, buzz: 0 };
 
 function Provider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(foobarReducer, initialState);
-  // must provide this type, because TS implicitly things this is an array that could take values of either the state or the dispatch, but it is infact a tuple
-  const value: [Foobar, React.Dispatch<FoobarAction>] = [state, dispatch];
+  const [state, dispatch] = useReducer(reducer, initialState);
+  /* must provide this type, because TS implicitly things this is an array that
+  could take values of either the state or the dispatch, but it is infact a tuple */
+  const value: [Foobar, React.Dispatch<Action>] = [state, dispatch];
 
   return <context.Provider value={value}>{children}</context.Provider>;
 }
