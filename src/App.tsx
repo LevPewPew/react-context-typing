@@ -1,11 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { FoobarProvider } from "./context";
+import * as Foobar from "./contexts/foobar";
 import { Fizz } from "./components/Fizz";
 
 function App() {
   return (
-    <FoobarProvider>
+    <Foobar.Provider>
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -23,7 +23,7 @@ function App() {
           <Fizz />
         </header>
       </div>
-    </FoobarProvider>
+    </Foobar.Provider>
   );
 }
 

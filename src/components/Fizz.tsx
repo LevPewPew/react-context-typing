@@ -1,15 +1,15 @@
 import { useContext, useEffect } from "react";
-import { FoobarContext, FoobarActionKind } from "../context";
+import * as Foobar from "../contexts/foobar";
 
 export function Fizz() {
-  const [state, dispatch] = useContext(FoobarContext);
+  const [state, dispatch] = useContext(Foobar.context);
 
   useEffect(() => {
-    dispatch({ type: FoobarActionKind.SET_BUZZ, payload: 0 });
+    dispatch({ type: "SET_BUZZ", payload: 0 });
   }, [state.fizz, dispatch]);
 
   function incrementFizz() {
-    dispatch({ type: FoobarActionKind.INCREMENT_FIZZ });
+    dispatch({ type: "INCREMENT_FIZZ" });
   }
 
   return (
