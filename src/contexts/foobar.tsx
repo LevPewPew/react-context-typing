@@ -31,7 +31,7 @@ function foobarReducer(state: Foobar, action: FoobarAction) {
     case "INCREMENT_BUZZ":
       return { ...state, buzz: state.buzz + 1 };
     default:
-      return state;
+      throw new Error("invalid 'action.type'");
   }
 }
 
@@ -44,12 +44,14 @@ export const context = createContext<[Foobar, React.Dispatch<FoobarAction>]>(
 
 const initialState: Foobar = { fizz: 0, buzz: 0 };
 
-export function Provider({ children }: { children: React.ReactNode }) {
+function Provider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(foobarReducer, initialState);
   // must provide this type, because TS implicitly things this is an array that could take values of either the state or the dispatch, but it is infact a tuple
   const value: [Foobar, React.Dispatch<FoobarAction>] = [state, dispatch];
 
   return <context.Provider value={value}>{children}</context.Provider>;
 }
+
+export default Provider;
 
 // NEXT create a private repo example thing

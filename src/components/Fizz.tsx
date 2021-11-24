@@ -1,15 +1,18 @@
 import { useContext, useEffect } from "react";
-import * as Foobar from "../contexts/foobar";
+import * as foobar from "../contexts/foobar";
 
-export function Fizz() {
-  const [state, dispatch] = useContext(Foobar.context);
+// NEXT create another context and combine them, then change import naming convention
+function Fizz() {
+  const [state, dispatch] = useContext(foobar.context);
 
   useEffect(() => {
     dispatch({ type: "SET_BUZZ", payload: 0 });
+    dispatch({ type: "SET_BUZZ" }); // error is expected!
   }, [state.fizz, dispatch]);
 
   function incrementFizz() {
     dispatch({ type: "INCREMENT_FIZZ" });
+    dispatch({ type: "INCREMENT_FIZZ", payload: 0 }); // error is expected!
   }
 
   return (
@@ -21,3 +24,5 @@ export function Fizz() {
     </div>
   );
 }
+
+export default Fizz;
