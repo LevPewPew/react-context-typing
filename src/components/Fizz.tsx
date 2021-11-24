@@ -8,14 +8,15 @@ function Fizz() {
 
   useEffect(() => {
     foobarDispatch({ type: "SET_BUZZ", payload: 0 });
-    foobarDispatch({ type: "SET_BUZZ" }); // error is expected!
+    // foobarDispatch({ type: "SET_BUZZ" }); // uncomment this to see EXPECTED error
   }, [foobarState.fizz, foobarDispatch]);
 
   function incrementFizz() {
     foobarDispatch({ type: "INCREMENT_FIZZ" });
-    foobarDispatch({ type: "INCREMENT_FIZZ", payload: 0 }); // error is expected!
+    // foobarDispatch({ type: "INCREMENT_FIZZ", payload: 0 }); // uncomment this to see EXPECTED error
   }
 
+  // NEXT finish demo buttons
   return (
     <div>
       <button type="button" onClick={incrementFizz}>
